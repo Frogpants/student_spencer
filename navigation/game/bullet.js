@@ -37,6 +37,27 @@ export function shootBullet(x,y,type=0) {
     if (player.ammo <= 0) player.ammo = 3;
 };
 
+export function spreadBullets(x, y) {
+    var angleStep = spread / (n - 1);
+    var startAngle = player.dir - spread / 2;
+    for (let i = 0; i < n; i++) {
+        var angle = startAngle + i * angleStep;
+        var rad = angle * (Math.PI / 180);
+        const newBullet = {
+            x: player.x + Math.cos(rad) * 20,
+            y: player.y + Math.sin(rad) * 20,
+            xv: Math.cos(rad) * bullet.speed,
+            yv: Math.sin(rad) * bullet.speed,
+            speed: bullet.speed,
+            dir: angle,
+            life: bullet.life,
+        };
+        bullets.push(newBullet);
+    }
+    player.ammo -= 1;
+    if (player.ammo <= 0) player.ammo = 3;
+};
+
 export function updBullets(ctx, canvas) {
     for (let i = 0; i < bullets.length; i++) {
         const b = bullets[i];
